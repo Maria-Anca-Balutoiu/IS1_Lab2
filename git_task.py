@@ -8,18 +8,24 @@ pygame.init()
 WIDTH, HEIGHT = 500, 500
 GRID_SIZE = 10
 CELL_SIZE = WIDTH // GRID_SIZE
+UPDATE_EVENT = pygame.USEREVENT + 1  
+UPDATE_INTERVAL = 5000
 
 # Create window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Procedural Color Grid (Press SPACE to Regenerate)")
+pygame.display.set_caption("Procedural Color Grid every 5 seconds")
 
 # Function to generate a new random color grid
 def generate_grid():
     return [[(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) 
              for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
 
+
+
 # Initial grid
 grid = generate_grid()
+
+pygame.time.set_timer(UPDATE_EVENT, UPDATE_INTERVAL)
 
 # Main loop
 running = True
@@ -38,6 +44,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == UPDATE_EVENT:  # Regenerate grid every 5 seconds
+            grid = generate_grid()    
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 grid = generate_grid()  # Regenerate grid when SPACE is pressed
