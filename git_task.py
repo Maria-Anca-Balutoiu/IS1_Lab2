@@ -34,14 +34,13 @@ while running:
                              (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
 
     pygame.display.flip()
-
+    if time.time() - start >= 5 :
+        grid = generate_grid()  # Regenerate grid when SPACE is pressed
+        print(time.time() - start)
+        start = time.time()
     # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif time.time() - start >=5 :
-            grid = generate_grid()  # Regenerate grid when SPACE is pressed
-            print(time.time() - start)
-            start = time.time()
 
 pygame.quit()
