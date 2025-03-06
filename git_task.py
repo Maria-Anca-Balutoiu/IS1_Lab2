@@ -23,6 +23,7 @@ grid = generate_grid()
 
 # Main loop
 running = True
+#refresh = False
 while running:
     screen.fill((0, 0, 0))
     
@@ -38,8 +39,21 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                grid = generate_grid()  # Regenerate grid when SPACE is pressed
+            # refresh = False
+        # elif event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_SPACE:
+        #         refresh = True
+        #         #grid = generate_grid()  # Regenerate grid when SPACE is presse
+        # elif event.type == pygame.KEYUP:
+        #     if event.key == pygame.K_SPACE:
+        #         refresh = False
 
+    # if refresh is True:
+    #     sleep(1000)
+    #     grid = generate_grid()
+
+    #pygame.time.wait(5000)
+    if pygame.time.get_ticks() % 5000  == 0:
+        grid = generate_grid()
+    
 pygame.quit()
