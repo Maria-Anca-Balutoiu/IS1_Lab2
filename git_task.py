@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 # Initialize Pygame
 pygame.init()
@@ -20,7 +21,7 @@ def generate_grid():
 
 # Initial grid
 grid = generate_grid()
-
+start = time.time()
 # Main loop
 running = True
 while running:
@@ -38,8 +39,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                grid = generate_grid()  # Regenerate grid when SPACE is pressed
+        elif time.time() - start >=5 :
+            grid = generate_grid()  # Regenerate grid when SPACE is pressed
+            print(time.time() - start)
+            start = time.time()
 
 pygame.quit()
