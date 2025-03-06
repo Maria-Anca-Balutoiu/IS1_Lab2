@@ -8,6 +8,7 @@ pygame.init()
 WIDTH, HEIGHT = 500, 500
 GRID_SIZE = 10
 CELL_SIZE = WIDTH // GRID_SIZE
+UPDATE_INTERVAL = 5000  # 5 seconds in milliseconds
 
 # Create window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -18,14 +19,21 @@ def generate_grid():
     return [[(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) 
              for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
 
-# Initial grid
+# Initial grid and timer setup
 grid = generate_grid()
+last_update_time = pygame.time.get_ticks()  # Get the current time
 
 # Main loop
 running = True
 while running:
     screen.fill((0, 0, 0))
-    
+
+    # Check if it's time to update the grid
+    current_time = pygame.time.get_ticks()
+    if current_time - last_update_time >= UPDATE_INTERVAL:
+        grid = generate_grid()
+        last_update_time = current_time  # Reset the timer
+
     # Draw the grid
     for y in range(GRID_SIZE):
         for x in range(GRID_SIZE):
