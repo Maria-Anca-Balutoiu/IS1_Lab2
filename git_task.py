@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 # Initialize Pygame
 pygame.init()
@@ -8,6 +9,7 @@ pygame.init()
 WIDTH, HEIGHT = 500, 500
 GRID_SIZE = 10
 CELL_SIZE = WIDTH // GRID_SIZE
+UPDATE_TIME = 5 # SECONDS
 
 # Create window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -22,6 +24,7 @@ def generate_grid():
 grid = generate_grid()
 
 # Main loop
+chrono_start = time.time()
 running = True
 while running:
     screen.fill((0, 0, 0))
@@ -40,6 +43,11 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
+                chrono_start = time.time() # Also reset time to avoid unwanted regenerating
                 grid = generate_grid()  # Regenerate grid when SPACE is pressed
+    
+    if time.time() > chrono_start + UPDATE_TIME:
+        chrono_start = time.time()
+        grid = generate_grid()
 
 pygame.quit()
