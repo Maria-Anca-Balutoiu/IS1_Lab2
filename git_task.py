@@ -17,9 +17,11 @@ pygame.display.set_caption("Procedural Color Grid (Press SPACE to Regenerate)")
 def generate_grid():
     return [[(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) 
              for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
-
+    
 # Initial grid
 grid = generate_grid()
+clock = pygame.time.Clock()
+timer = 0
 
 # Main loop
 running = True
@@ -34,12 +36,19 @@ while running:
 
     pygame.display.flip()
 
+    timer += clock.get_time()
+    if timer >= 5000:
+        grid = generate_grid()
+        timer = 0
+
     # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                grid = generate_grid()  # Regenerate grid when SPACE is pressed
+            grid = generate_grid()
+            timer = 0
+
+    clock.tick(60)
 
 pygame.quit()
