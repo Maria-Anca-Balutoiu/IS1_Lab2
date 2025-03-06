@@ -1,4 +1,4 @@
-import pygame
+import pygame # type: ignore
 import random
 
 # Initialize Pygame
@@ -21,25 +21,30 @@ def generate_grid():
 # Initial grid
 grid = generate_grid()
 
+
+# Set timer for automatic refresh
+REFRESH_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(REFRESH_EVENT, 5000)
+
 # Main loop
 running = True
 while running:
     screen.fill((0, 0, 0))
     
-    # Draw the grid
     for y in range(GRID_SIZE):
         for x in range(GRID_SIZE):
             pygame.draw.rect(screen, grid[y][x], 
                              (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-
+    
     pygame.display.flip()
-
-    # Event handling
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                grid = generate_grid()  # Regenerate grid when SPACE is pressed
+                grid = generate_grid()
+        elif event.type == REFRESH_EVENT:
+            grid = generate_grid()
 
 pygame.quit()
