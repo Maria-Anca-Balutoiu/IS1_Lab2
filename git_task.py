@@ -8,6 +8,7 @@ pygame.init()
 WIDTH, HEIGHT = 500, 500
 GRID_SIZE = 10
 CELL_SIZE = WIDTH // GRID_SIZE
+UPDATE_INTERVAL = 5000  # 5 seconds in milliseconds
 
 # Create window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -20,6 +21,7 @@ def generate_grid():
 
 # Initial grid
 grid = generate_grid()
+last_update = pygame.time.get_ticks()  # Time tracker
 
 # Main loop
 running = True
@@ -34,6 +36,12 @@ while running:
 
     pygame.display.flip()
 
+    # Check time for automatic regeneration
+    current_time = pygame.time.get_ticks()
+    if current_time - last_update > UPDATE_INTERVAL:
+        grid = generate_grid()
+        last_update = current_time  # Reset timer
+
     # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -41,5 +49,6 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 grid = generate_grid()  # Regenerate grid when SPACE is pressed
+                last_update = pygame.time.get_ticks()  # Reset timer to avoid immediate regeneration
 
 pygame.quit()
